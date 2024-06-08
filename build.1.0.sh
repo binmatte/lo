@@ -8,6 +8,7 @@
 # shellcheck disable=SC2164
 # shellcheck disable=SC2046
 # shellcheck disable=SC2006
+# shellcheck disable=SC2103
 
 ################################################################################################
 ################################################################################################
@@ -41,12 +42,12 @@ export CONFIG_SITE=$LO_HOME/usr/share/config.site
 ################################################################################################
 ################################################################################################
 
-mkdir -p $LO_HOME/{boot,dev,etc,home,media,mnt,opt,run,srv,var/log}
-mkdir -p $LO_HOME/usr/{bin,lib,lib64,sbin,include,local}
+mkdir -p $LO_HOME/{dev,srv,var}
+mkdir -p $LO_HOME/usr/{bin,lib,lib64,sbin,include}
 mkdir -p $LO_HOME/{tools,source}
 
 install -d -m 0555 $LO_HOME/proc/
-install -d -m 0700 $LO_HOME/root/
+install -d -m 0750 $LO_HOME/root/
 install -d -m 0555 $LO_HOME/sys/
 install -d -m 1777 $LO_HOME/tmp/
 install -d -m 1777 $LO_HOME/var/tmp/
@@ -209,6 +210,7 @@ mkdir -p build && cd build
 	--quiet \
 	--enable-languages=c,c++
 make > /dev/null && make install > /dev/null
+cd ..
 cat gcc/limitx.h gcc/glimits.h gcc/limity.h > `dirname $($LO_TARGET-gcc -print-libgcc-file-name)`/include/limits.h
 
 cd $LO_HOME/source/linux-6.9.3
